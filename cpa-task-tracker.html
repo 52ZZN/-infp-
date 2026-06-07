@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title> INFP 专属 CPA 备考任务清单</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Microsoft YaHei', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            text-align: center;
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 28px;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: #999;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        .date-display {
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+        
+        /* 进度可视化区域 */
+        .progress-section {
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 20px;
+            border-radius: 15px;
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        
+        .progress-title {
+            font-size: 16px;
+            color: #333;
+            margin-bottom: 15px;
+            font-weight: bold;
+        }
+        
+        .flower-progress {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+        
+        .flower {
+            font-size: 30px;
+            transition: all 0.5s ease;
+        }
+        
+        .flower.bloomed {
+            animation: bloom 0.6s ease-out;
+        }
+        
+        @keyframes bloom {
+            0% { transform: scale(0.5); opacity: 0.5; }
+            100% { transform: scale(1); opacity: 1; }
+        }
+        
+        .progress-encouragement {
+            font-size: 18px;
+            color: #667eea;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+        
+        .progress-detail {
+            font-size: 14px;
+            color: #666;
+        }
+        
+        .progress-bar-container {
+            background: white;
+            border-radius: 10px;
+            padding: 10px;
+            margin-top: 15px;
+        }
+        
+        .progress-bar {
+            background: #e9ecef;
+            border-radius: 10px;
+            height: 25px;
+            overflow: hidden;
+        }
+        
+        .progress-fill {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            height: 100%;
+            transition: width 0.5s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        
+        /* 自定义编辑器 */
+        .custom-editor {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .editor-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .editor-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            width: 100%;
+            margin-bottom: 15px;
+        }
+        
+        .editor-btn:hover {
+            transform: scale(1.02);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        .editor-panel {
+            display: none;
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+        
+        .editor-panel.active {
+            display: block;
+        }
+        
+        .task-input-group {
+            margin-bottom: 15px;
+        }
+        
+        .task-input-group label {
+            display: block;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 8px;
+            font-size: 14px;
+        }
+        
+        .task-input-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 2px solid #e9ecef;
+            border-radius: 8px;
+            font-size: 14px;
+            resize: vertical;
+            min-height: 60px;
+        }
+        
+        .task-input-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .save-btn {
+            background: #28a745;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .save-btn:hover {
+            background: #218838;
+        }
+        
+        .cancel-btn {
+            background: #6c757d;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-left: 10px;
+        }
+        
+        .cancel-btn:hover {
+            background: #5a6268;
+        }
+        
+        .section {
+            margin-bottom: 25px;
+        }
+        
+        .section-title {
+            font-size: 20px;
+            font-weight: bold;
+            color: #333;
+            margin-bottom: 15px;
+            padding-left: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .task-list {
+            list-style: none;
+        }
+        
+        .task-item {
+            display: flex;
+            align-items: center;
+            padding: 12px 15px;
+            margin-bottom: 10px;
+            background: #f8f9fa;
+            border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .task-item:hover {
+            background: #e9ecef;
+            transform: translateX(5px);
+        }
+        
+        .task-item.completed {
+            background: #d4edda;
+            opacity: 0.7;
+        }
+        
+        .task-item.completed .task-text {
+            text-decoration: line-through;
+            color: #999;
+        }
+        
+        .task-checkbox {
+            width: 22px;
+            height: 22px;
+            margin-right: 15px;
+            cursor: pointer;
+            accent-color: #667eea;
+        }
+        
+        .task-text {
+            flex: 1;
+            font-size: 16px;
+            color: #333;
+        }
+        
+        .task-tag {
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 12px;
+            font-weight: bold;
+            margin-left: 10px;
+        }
+        
+        .tag-study {
+            background: #e3f2fd;
+            color: #1976d2;
+        }
+        
+        .tag-life {
+            background: #fff3e0;
+            color: #f57c00;
+        }
+        
+        .tag-optional {
+            background: #f3e5f5;
+            color: #7b1fa2;
+        }
+        
+        .stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+        
+        .stat-item {
+            text-align: center;
+        }
+        
+        .stat-number {
+            font-size: 24px;
+            font-weight: bold;
+            color: #667eea;
+        }
+        
+        .stat-label {
+            font-size: 12px;
+            color: #999;
+            margin-top: 5px;
+        }
+        
+        .tips {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 15px;
+            border-radius: 5px;
+            margin-top: 20px;
+        }
+        
+        .tips-title {
+            font-weight: bold;
+            color: #856404;
+            margin-bottom: 10px;
+        }
+        
+        .tips-list {
+            list-style: none;
+            color: #856404;
+            font-size: 14px;
+        }
+        
+        .tips-list li {
+            margin-bottom: 5px;
+            padding-left: 20px;
+            position: relative;
+        }
+        
+        .emergency-btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: #ff6b6b;
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+        }
+        
+        .emergency-btn:hover {
+            background: #ff5252;
+            transform: scale(1.02);
+        }
+        
+        .rest-day-notice {
+            display: none;
+            text-align: center;
+            background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%);
+            padding: 30px;
+            border-radius: 15px;
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .rest-day-notice h2 {
+            font-size: 28px;
+            margin-bottom: 15px;
+            color: #667eea;
+        }
+        
+        .rest-day-notice p {
+            font-size: 16px;
+            margin-bottom: 10px;
+        }
+        
+        .toggle-progress {
+            text-align: right;
+            margin-bottom: 10px;
+        }
+        
+        .toggle-btn {
+            background: transparent;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .toggle-btn:hover {
+            background: #667eea;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🌸 INFP 专属 CPA 备考任务清单</h1>
+        <p class="subtitle">弹性制 · 不焦虑 · 随心所欲 · 劳逸结合</p>
+        
+        <div class="date-display" id="dateDisplay">
+            加载中...
+        </div>
+        
+        <!-- 进度可视化区域 -->
+        <div class="progress-section" id="progressSection">
+            <div class="toggle-progress">
+                <button class="toggle-btn" onclick="toggleProgress()">隐藏进度</button>
+            </div>
+            <div class="progress-title">🌱 你的成长花园</div>
+            <div class="flower-progress" id="flowerProgress">
+                <!-- 动态生成花朵 -->
+            </div>
+            <div class="progress-encouragement" id="progressEncouragement">
+                加载鼓励语中...
+            </div>
+            <div class="progress-detail" id="progressDetail">
+                已学习 0 章
+            </div>
+            <div class="progress-bar-container">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill" style="width: 0%">0%</div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 自定义编辑器 -->
+        <div class="custom-editor">
+            <div class="editor-title">
+                ✏️ 今天想怎么学，你说了算！
+            </div>
+            <button class="editor-btn" onclick="toggleEditor()">
+                 编辑今日计划（INFP 专属自由权）
+            </button>
+            <div class="editor-panel" id="editorPanel">
+                <div class="task-input-group">
+                    <label>📚 学习必做任务（可以随意修改）</label>
+                    <textarea id="studyTasks" placeholder="例如：&#10;1. 财管听课 2 章&#10;2. 财管习题 对应章节&#10;3. 六级保持 30 分钟">1. 财管听课 2-2.5 章（每章约 1 小时）
+2. 财管习题 对应章节练习（每章 0.5-1 小时）
+3. 六级保持 30 分钟（听力/阅读轮换）</textarea>
+                </div>
+                <div class="task-input-group">
+                    <label>🏠 生活必做任务（最多 2 项）</label>
+                    <textarea id="lifeTasks" placeholder="例如：&#10;1. 洗衣服&#10;2. 好好吃饭">1. 洗衣服/收拾房间（选 1 项）
+2. 好好吃饭 + 休息（必须！）</textarea>
+                </div>
+                <div class="task-input-group">
+                    <label>✨ 备选池（无限 · 随缘完成）</label>
+                    <textarea id="optionalTasks" placeholder="例如：&#10;- 额外复习&#10;- 导师任务">- 额外财管复习 / 错题整理
+- 六级作文 / 翻译练习
+- 导师任务（白天不定时）
+- 其他琐事</textarea>
+                </div>
+                <div class="task-input-group">
+                    <label> 今日鼓励语</label>
+                    <textarea id="encouragementText" placeholder="写一句鼓励自己的话">完成任意必做任务就给自己夸夸，你超棒的！按自身状态学习，不要看时间～</textarea>
+                </div>
+                <button class="save-btn" onclick="saveCustomPlan()">💾 保存今日计划</button>
+                <button class="cancel-btn" onclick="toggleEditor()">取消</button>
+            </div>
+        </div>
+        
+        <!-- 休息日提示 -->
+        <div class="rest-day-notice" id="restDayNotice">
+            <h2>🎉 今天是休息日！</h2>
+            <p>好好放松，不学习也没关系～</p>
+            <p style="font-size: 14px; color: #666; margin-top: 10px;">但如果你此刻就是想学习...那就学吧！INFP 的随心所欲最重要 (◍•ᴗ•◍)</p>
+            <button class="editor-btn" style="margin-top: 20px; width: auto; padding: 12px 30px;" onclick="showTasksAnyway()">
+                💪 我就是要学习！显示任务
+            </button>
+        </div>
+        
+        <!-- 学习必做任务 -->
+        <div class="section" id="studySection">
+            <div class="section-title"> 学习必做（今日核心）</div>
+            <ul class="task-list" id="studyList">
+                <li class="task-item">
+                    <input type="checkbox" class="task-checkbox" data-category="study">
+                    <span class="task-text">财管听课 2-2.5 章（每章约 1 小时）</span>
+                    <span class="task-tag tag-study">必做</span>
+                </li>
+                <li class="task-item">
+                    <input type="checkbox" class="task-checkbox" data-category="study">
+                    <span class="task-text">财管习题 对应章节练习（每章 0.5-1 小时）</span>
+                    <span class="task-tag tag-study">必做</span>
+                </li>
+                <li class="task-item">
+                    <input type="checkbox" class="task-checkbox" data-category="study">
+                    <span class="task-text">六级保持 30 分钟（听力/阅读轮换）</span>
+                    <span class="task-tag tag-study">必做</span>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- 生活必做任务 -->
+        <div class="section" id="lifeSection">
+            <div class="section-title">🏠 生活必做（最多 2 项）</div>
+            <ul class="task-list" id="lifeList">
+                <li class="task-item">
+                    <input type="checkbox" class="task-checkbox" data-category="life">
+                    <span class="task-text">洗衣服 / 收拾房间（选 1 项）</span>
+                    <span class="task-tag tag-life">必做</span>
+                </li>
+                <li class="task-item">
+                    <input type="checkbox" class="task-checkbox" data-category="life">
+                    <span class="task-text">好好吃饭 + 休息（必须！）</span>
+                    <span class="task-tag tag-life">必做</span>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- 备选任务池 -->
+        <div class="section" id="optionalSection">
+            <div class="section-title">✨ 备选池（无限 · 随缘完成）</div>
+            <ul class="task-list" id="optionalList">
+                <li class="task-item">
+                    <input type="checkbox" class="task-checkbox" data-category="optional">
+                    <span class="task-text">额外财管复习 / 错题整理</span>
+                    <span class="task-tag tag-optional">选做</span>
+                </li>
+                <li class="task-item">
+                    <input type="checkbox" class="task-checkbox" data-category="optional">
+                    <span class="task-text">六级作文 / 翻译练习</span>
+                    <span class="task-tag tag-optional">选做</span>
+                </li>
+                <li class="task-item">
+                    <input type="checkbox" class="task-checkbox" data-category="optional">
+                    <span class="task-text">导师任务（白天不定时）</span>
+                    <span class="task-tag tag-optional">选做</span>
+                </li>
+                <li class="task-item">
+                    <input type="checkbox" class="task-checkbox" data-category="optional">
+                    <span class="task-text">其他琐事</span>
+                    <span class="task-tag tag-optional">选做</span>
+                </li>
+            </ul>
+        </div>
+        
+        <!-- 进度统计 -->
+        <div class="stats">
+            <div class="stat-item">
+                <div class="stat-number" id="completedCount">0</div>
+                <div class="stat-label">已完成</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="totalCount">10</div>
+                <div class="stat-label">总任务</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number" id="studyChapters">121</div>
+                <div class="stat-label">已学章节</div>
+            </div>
+        </div>
+        
+        <!-- INFP 温馨提示 -->
+        <div class="tips">
+            <div class="tips-title">💖 INFP 专属小贴士</div>
+            <ul class="tips-list">
+                <li id="tip1">完成任意必做任务就给自己夸夸，你超棒的！</li>
+                <li id="tip2">情绪不好时允许短暂摆烂，效率远高于硬熬</li>
+                <li id="tip3">不要看时间，按自身状态学习，顺序自己定</li>
+                <li id="tip4">本周目标：财管 12 章，六级每日保持手感</li>
+            </ul>
+        </div>
+        
+        <!-- 应急按钮 -->
+        <button class="emergency-btn" onclick="emergencyMode()">
+             今天状态不好？点击启用应急模式
+        </button>
+    </div>
+    
+    <script>
+        // 配置
+        const TOTAL_CHAPTERS = 161;
+        const START_CHAPTERS = 121;
+        
+        // 显示当前日期并判断是否休息日
+        function updateDate() {
+            const now = new Date();
+            const options = { year: 'numeric', month: 'long', day: 'numeric', weekday: 'long' };
+            document.getElementById('dateDisplay').textContent = now.toLocaleDateString('zh-CN', options);
+            
+            // 判断是否休息日（周日或周二）
+            const dayOfWeek = now.getDay();
+            const isRestDay = (dayOfWeek === 0 || dayOfWeek === 2);
+            
+            const restDayNotice = document.getElementById('restDayNotice');
+            const taskSections = document.querySelectorAll('.section');
+            
+            if (isRestDay) {
+                restDayNotice.style.display = 'block';
+                // 不隐藏任务列表，让 INFP 自己决定
+            } else {
+                restDayNotice.style.display = 'none';
+            }
+        }
+        
+        // 显示任务（即使休息日也想学习）
+        function showTasksAnyway() {
+            document.getElementById('restDayNotice').style.display = 'none';
+        }
+        
+        // 切换编辑器
+        function toggleEditor() {
+            const panel = document.getElementById('editorPanel');
+            panel.classList.toggle('active');
+        }
+        
+        // 保存自定义计划
+        function saveCustomPlan() {
+            const studyTasks = document.getElementById('studyTasks').value;
+            const lifeTasks = document.getElementById('lifeTasks').value;
+            const optionalTasks = document.getElementById('optionalTasks').value;
+            const encouragement = document.getElementById('encouragementText').value;
+            
+            // 保存到本地存储
+            const today = new Date().toDateString();
+            localStorage.setItem('customPlan_' + today, JSON.stringify({
+                study: studyTasks,
+                life: lifeTasks,
+                optional: optionalTasks,
+                encouragement: encouragement
+            }));
+            
+            // 更新页面显示
+            updateTaskLists(studyTasks, lifeTasks, optionalTasks, encouragement);
+            
+            // 关闭编辑器
+            toggleEditor();
+            
+            alert('✅ 今日计划已保存！按照你的想法去学习吧～(◍•ᴗ•◍)');
+        }
+        
+        // 更新任务列表显示
+        function updateTaskLists(studyText, lifeText, optionalText, encouragement) {
+            // 更新学习任务
+            const studyList = document.getElementById('studyList');
+            studyList.innerHTML = '';
+            studyText.split('\n').filter(line => line.trim()).forEach(line => {
+                const li = document.createElement('li');
+                li.className = 'task-item';
+                li.innerHTML = `
+                    <input type="checkbox" class="task-checkbox" data-category="study">
+                    <span class="task-text">${line}</span>
+                    <span class="task-tag tag-study">必做</span>
+                `;
+                studyList.appendChild(li);
+            });
+            
+            // 更新生活任务
+            const lifeList = document.getElementById('lifeList');
+            lifeList.innerHTML = '';
+            lifeText.split('\n').filter(line => line.trim()).forEach(line => {
+                const li = document.createElement('li');
+                li.className = 'task-item';
+                li.innerHTML = `
+                    <input type="checkbox" class="task-checkbox" data-category="life">
+                    <span class="task-text">${line}</span>
+                    <span class="task-tag tag-life">必做</span>
+                `;
+                lifeList.appendChild(li);
+            });
+            
+            // 更新备选任务
+            const optionalList = document.getElementById('optionalList');
+            optionalList.innerHTML = '';
+            optionalText.split('\n').filter(line => line.trim()).forEach(line => {
+                const li = document.createElement('li');
+                li.className = 'task-item';
+                li.innerHTML = `
+                    <input type="checkbox" class="task-checkbox" data-category="optional">
+                    <span class="task-text">${line.replace(/^- /, '')}</span>
+                    <span class="task-tag tag-optional">选做</span>
+                `;
+                optionalList.appendChild(li);
+            });
+            
+            // 更新鼓励语
+            document.getElementById('tip1').textContent = encouragement;
+            
+            // 重新绑定事件
+            document.querySelectorAll('.task-checkbox').forEach(cb => {
+                cb.addEventListener('change', function() {
+                    updateProgress();
+                    saveProgress();
+                });
+            });
+            
+            updateProgress();
+        }
+        
+        // 加载今日自定义计划
+        function loadCustomPlan() {
+            const today = new Date().toDateString();
+            const saved = localStorage.getItem('customPlan_' + today);
+            if (saved) {
+                const plan = JSON.parse(saved);
+                document.getElementById('studyTasks').value = plan.study;
+                document.getElementById('lifeTasks').value = plan.life;
+                document.getElementById('optionalTasks').value = plan.optional;
+                document.getElementById('encouragementText').value = plan.encouragement;
+                updateTaskLists(plan.study, plan.life, plan.optional, plan.encouragement);
+            }
+        }
+        
+        // 更新进度可视化
+        function updateFlowerProgress(chapters) {
+            const flowerContainer = document.getElementById('flowerProgress');
+            flowerContainer.innerHTML = '';
+            
+            // 每 10 章一朵花
+            const flowerCount = Math.floor(chapters / 10);
+            const flowers = ['', '🌿', '', '🌺', '', '🌼', '', '🌹', '', '🌷'];
+            
+            for (let i = 0; i < flowerCount && i < 10; i++) {
+                const flower = document.createElement('span');
+                flower.className = 'flower bloomed';
+                flower.textContent = flowers[i];
+                flower.style.animationDelay = (i * 0.1) + 's';
+                flowerContainer.appendChild(flower);
+            }
+            
+            // 更新鼓励语
+            const encouragements = [
+                '你已经走了这么远啦！继续加油～',
+                '每一章都是成长，你超棒的！',
+                '花园里的花朵为你绽放！',
+                '坚持到现在，真的辛苦了～',
+                '你比昨天更优秀了！',
+                'CPA 证书在向你招手！',
+            ];
+            
+            const randomEncouragement = encouragements[Math.floor(Math.random() * encouragements.length)];
+            document.getElementById('progressEncouragement').textContent = randomEncouragement;
+            document.getElementById('progressDetail').textContent = `已学习 ${chapters} 章 / 目标 ${TOTAL_CHAPTERS} 章`;
+        }
+        
+        // 更新进度
+        function updateProgress() {
+            const checkboxes = document.querySelectorAll('.task-checkbox');
+            const completed = Array.from(checkboxes).filter(cb => cb.checked).length;
+            const total = checkboxes.length;
+            const percentage = total > 0 ? Math.round((completed / total) * 100) : 0;
+            
+            document.getElementById('completedCount').textContent = completed;
+            document.getElementById('progressFill').style.width = percentage + '%';
+            document.getElementById('progressFill').textContent = percentage + '%';
+            
+            // 更新任务样式
+            checkboxes.forEach(cb => {
+                const taskItem = cb.closest('.task-item');
+                if (cb.checked) {
+                    taskItem.classList.add('completed');
+                } else {
+                    taskItem.classList.remove('completed');
+                }
+            });
+        }
+        
+        // 应急模式
+        function emergencyMode() {
+            const confirmEmergency = confirm('🌸 应急模式说明：\n\n今天只做最低限度复习（10-20 分钟翻看课本），其余时间休息。\n\nINFP 强行透支会出现长时间厌学停工，短时摆烂是止损。\n\n确定启用应急模式吗？');
+            if (confirmEmergency) {
+                alert('✅ 已启用应急模式！\n\n今天的任务：\n1. 翻看财管课本 10-20 分钟\n2. 好好休息，照顾情绪\n\n明天再继续努力哦～(◍•ᴗ•◍)');
+            }
+        }
+        
+        // 保存进度到本地存储
+        function saveProgress() {
+            const checkboxes = document.querySelectorAll('.task-checkbox');
+            const state = Array.from(checkboxes).map(cb => cb.checked);
+            const today = new Date().toDateString();
+            
+            // 保存任务状态
+            localStorage.setItem('cpaTaskState_' + today, JSON.stringify(state));
+            
+            // 保存章节进度
+            const chapters = parseInt(document.getElementById('studyChapters').textContent);
+            localStorage.setItem('cpaChapters', chapters.toString());
+        }
+        
+        // 加载进度
+        function loadProgress() {
+            const today = new Date().toDateString();
+            const state = JSON.parse(localStorage.getItem('cpaTaskState_' + today) || '[]');
+            const checkboxes = document.querySelectorAll('.task-checkbox');
+            checkboxes.forEach((cb, index) => {
+                if (state[index]) {
+                    cb.checked = true;
+                }
+            });
+            
+            // 加载章节进度
+            const savedChapters = localStorage.getItem('cpaChapters');
+            if (savedChapters) {
+                document.getElementById('studyChapters').textContent = savedChapters;
+                updateFlowerProgress(parseInt(savedChapters));
+            }
+        }
+        
+        // 切换进度显示
+        function toggleProgress() {
+            const section = document.getElementById('progressSection');
+            const btn = document.querySelector('.toggle-progress .toggle-btn');
+            
+            if (section.style.display === 'none') {
+                section.style.display = 'block';
+                btn.textContent = '隐藏进度';
+            } else {
+                section.style.display = 'none';
+                btn.textContent = '显示进度';
+            }
+        }
+        
+        // 增加章节（手动更新）
+        function addChapters() {
+            const current = parseInt(document.getElementById('studyChapters').textContent);
+            const add = prompt(`当前已学习 ${current} 章\n输入今天学习的章节数：`, '2');
+            if (add && !isNaN(add)) {
+                const newChapters = current + parseInt(add);
+                document.getElementById('studyChapters').textContent = newChapters;
+                updateFlowerProgress(newChapters);
+                saveProgress();
+                alert(`🎉 恭喜你！已更新为 ${newChapters} 章，继续加油～`);
+            }
+        }
+        
+        // 初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            updateDate();
+            loadCustomPlan();
+            loadProgress();
+            updateProgress();
+            
+            // 绑定事件
+            document.querySelectorAll('.task-checkbox').forEach(cb => {
+                cb.addEventListener('change', function() {
+                    updateProgress();
+                    saveProgress();
+                });
+            });
+            
+            // 添加章节更新按钮
+            const statsSection = document.querySelector('.stats');
+            const addChapterBtn = document.createElement('div');
+            addChapterBtn.style.cssText = 'text-align: center; margin-top: 15px;';
+            addChapterBtn.innerHTML = '<button onclick="addChapters()" style="background: #667eea; color: white; border: none; padding: 8px 20px; border-radius: 8px; cursor: pointer;">📚 更新已学章节</button>';
+            statsSection.appendChild(addChapterBtn);
+        });
+    </script>
+</body>
+</html>
